@@ -1,4 +1,4 @@
-package BehaviorPatterns.StratergyPattern;
+package StratergyPattern;
 
 public class Bird extends Animal {
 

@@ -1,4 +1,4 @@
-package BehaviorPatterns.FactoryPattern;
+package FactoryPattern;
 
 public interface Shape {
 	abstract void draw();

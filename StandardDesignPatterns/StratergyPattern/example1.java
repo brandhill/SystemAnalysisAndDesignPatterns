@@ -1,4 +1,4 @@
-package BehaviorPatterns.StratergyPattern;
+package StratergyPattern;
 
 public class example1 {
 	example1(){

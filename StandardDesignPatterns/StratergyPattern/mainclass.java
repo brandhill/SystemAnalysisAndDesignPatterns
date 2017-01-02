@@ -1,4 +1,4 @@
-package BehaviorPatterns.StratergyPattern;
+package StratergyPattern;
 
 /* In stratergy pattern a piece a code which is to be different for different subclass or
  *  a code has to changed dynamically for a class   */

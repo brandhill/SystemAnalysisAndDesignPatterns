@@ -1,4 +1,4 @@
-package BehaviorPatterns.FactoryPattern;
+package FactoryPattern;
 
 public class ShapeFactory {
 	private Shape circle;

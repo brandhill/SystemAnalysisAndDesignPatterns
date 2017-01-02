@@ -1,4 +1,4 @@
-package BehaviourPattern.FrontControllerPattern;
+package FrontControllerPattern;
 
 public class FrontController {
 	

@@ -1,4 +1,4 @@
-package StructurePattern.AdaptorPattern;
+package AdaptorPattern;
 
 public interface MediaPlayer {
 
