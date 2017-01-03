@@ -1,0 +1,7 @@
+Parking lot has multiple levels. Each level has multiple rows
+The parking lot has motorcycle spots, compact spots, large spots
+Parking lot can park motorcycles,cars,buses
+A motorcycle can park in any spot
+A car can park in either single compact spot or a single large spot
+A bus can park in five large spots that are consecutive and within the same row. It cannot park in small spots.
+
