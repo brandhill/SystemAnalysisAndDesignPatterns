@@ -9,9 +9,9 @@ import java.util.Stack;
 
 public class ParkingHandler {
 	private static ParkingHandler handler = null;
-	Stack<MotorCycleSpots> motorSpots = new Stack<MotorCycleSpots>();
-	Stack<CompactSpots> compactSpots = new Stack<CompactSpots>();
-	List<LargeSpots> largeSpots = new ArrayList<LargeSpots>();
+	private Stack<MotorCycleSpots> motorSpots = new Stack<MotorCycleSpots>();
+	private Stack<CompactSpots> compactSpots = new Stack<CompactSpots>();
+	private List<LargeSpots> largeSpots = new ArrayList<LargeSpots>();
 	private ParkingHandler() {
 		
 	}
@@ -174,11 +174,11 @@ public class ParkingHandler {
 		
 		if(spot instanceof MotorCycleSpots) {
 			motorSpots.push((MotorCycleSpots) spot);
-			spot.Level.avaliablemotorCycleSpots--;
+			spot.Level.avaliablemotorCycleSpots++;
 		}
 		else if(spot instanceof CompactSpots) {
 			compactSpots.push((CompactSpots) spot);
-			spot.Level.avaliablecompactSpots--;
+			spot.Level.avaliablecompactSpots++;
 		}
 		spot.isAvaliable = true;
 			

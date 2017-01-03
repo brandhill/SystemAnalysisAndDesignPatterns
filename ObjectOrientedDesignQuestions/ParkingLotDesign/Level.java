@@ -7,20 +7,34 @@ public class Level {
 	// level and row form a primary key
 	int level;
 	char row;
-	MotorCycleSpots[] motorCycleSpots;
-	CompactSpots[] compactSpots;
-	LargeSpots[] largeSpots;
+	List<MotorCycleSpots> motorCycleSpots;
+	List<CompactSpots> compactSpots;
+	List<LargeSpots> largeSpots;
 	int avaliablemotorCycleSpots;
 	int avaliablecompactSpots;
 	int avaliablelargeSpots;
-	public Level(int motorCycleSpots, int compactSpots, int largeSpots) {
-		this.motorCycleSpots = new  MotorCycleSpots[motorCycleSpots];
-		this.compactSpots = new CompactSpots[compactSpots];
-		this.largeSpots = new LargeSpots[largeSpots];
-		this.avaliablemotorCycleSpots = motorCycleSpots;
-		this.avaliablecompactSpots = compactSpots;
-		this.avaliablelargeSpots = largeSpots;
+	public Level(int level, char row) {
+		this.level = level;
+		this.row = row;
+		this.motorCycleSpots = new  ArrayList<MotorCycleSpots>();
+		this.compactSpots = new ArrayList<CompactSpots>();
+		this.largeSpots = new ArrayList<LargeSpots>();
 	}
 	
+	public void addMotorCycleSpots(MotorCycleSpots spot) {
+		motorCycleSpots.add(spot);
+		spot.Level = this;
+		this.avaliablemotorCycleSpots++;
+	}
+	public void addCompactSpots(CompactSpots spot) {
+		compactSpots.add(spot);
+		spot.Level = this;
+		this.avaliablecompactSpots++;
+	}
+	public void addLargeSpots(LargeSpots spot) {
+		largeSpots.add(spot);
+		spot.Level = this;
+		this.avaliablelargeSpots++;
+	}
 	
 }
