@@ -2,7 +2,6 @@ package ParkingLotDesign;
 
 public class Spot {
 	Level Level;
-	Row row;
 	int number;
 	boolean isAvaliable;
 }

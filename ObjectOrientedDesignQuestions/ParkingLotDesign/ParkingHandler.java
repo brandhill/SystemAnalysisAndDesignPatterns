@@ -16,6 +16,18 @@ public class ParkingHandler {
 		
 	}
 	
+	void addMotorSpots(List<MotorCycleSpots> list) {
+		for(MotorCycleSpots m: list)
+			motorSpots.push(m);
+	}
+	void addCompactSpots(List<CompactSpots> list) {
+		for(CompactSpots m: list)
+			compactSpots.push(m);
+	}
+	void addLargeSpots(List<LargeSpots> list) {
+		largeSpots.addAll(list);
+	}
+	
 	static ParkingHandler getInstance() {
 		if(handler==null) {
 			handler = new ParkingHandler();
@@ -60,38 +72,45 @@ public class ParkingHandler {
 	private Spot getBestPossibleSpotforMotorCycle() {
 		
 		Spot spot = null;
-		if(!motorSpots.isEmpty())
+		if(!motorSpots.isEmpty()) {
 			spot = motorSpots.pop();
-		else if(!compactSpots.isEmpty())
+			spot.Level.avaliablemotorCycleSpots--;
+		}
+		else if(!compactSpots.isEmpty()) {
 			spot = compactSpots.pop();
+			spot.Level.avaliablecompactSpots--;
+		}
 		else  {
 			for(LargeSpots l: largeSpots) {
 				if(l.isAvaliable) {
 					spot = l;
-					spot.isAvaliable = false;
+					spot.Level.avaliablelargeSpots--;
 					break;
 				}
 			}
 			
 		}
+		spot.isAvaliable = false;
 		return spot;
 	}
 	
 	private Spot getBestPossibleSpotforCar() {
 		
 		Spot spot = null;
-		if(!compactSpots.isEmpty())
+		if(!compactSpots.isEmpty()) {
 			spot = compactSpots.pop();
+			spot.Level.avaliablecompactSpots--;
+		}
 		else {
 			for(LargeSpots l: largeSpots) {
 				if(l.isAvaliable) {
 					spot = l;
-					spot.isAvaliable = false;
+					spot.Level.avaliablelargeSpots--;
 					break;
 				}
 			}
 		}
-			
+		spot.isAvaliable = false;
 		return spot;
 	}
 
@@ -104,17 +123,19 @@ public class ParkingHandler {
 		char row = 0;
 		Stack<LargeSpots> stack = new Stack<LargeSpots>();
 		for(int i = 0; i < largeSpots.size(); i++) {
-			LargeSpots l = largeSpots.get(0);
+			LargeSpots l = largeSpots.get(i);
 			if(stack.size()==5) {
 				int j = 0;
 				while(!stack.isEmpty()) {
+					stack.peek().isAvaliable = false;
 					spot[j] = stack.pop();
 				}
+				spot[0].Level.avaliablelargeSpots -= 5;
 			}	
-			if(l.isAvaliable && (levelId==-1 || (l.Level.level == levelId && l.row.row == row))) {
+			if(l.isAvaliable && (levelId==-1 || (l.Level.level == levelId && l.Level.row == row))) {
 					if(levelId==-1) {
 						levelId = l.Level.level;
-						row = l.row.row;
+						row = l.Level.row;
 					}
 					stack.push(l);
 			}
@@ -140,22 +161,26 @@ public class ParkingHandler {
 			spot = ((Car) vehicle).spotNumber;
 		}
 		else {
-			Spot[] spots = ((Bus) vehicle).spotNumbers;
+			Spot[] spots = new Spot[5];
+			spots = ((Bus) vehicle).spotNumbers;
 			int i = 0;
 			while(i<5) {
 				spots[i].isAvaliable = true;
+				i++;
 			}
+			spots[0].Level.avaliablelargeSpots += 5;
 			return;
 		}
 		
-		if(spot instanceof MotorCycleSpots)
+		if(spot instanceof MotorCycleSpots) {
 			motorSpots.push((MotorCycleSpots) spot);
-		else if(spot instanceof CompactSpots)
-			compactSpots.push((CompactSpots) spot);
-		else {
-			LargeSpots largeSpot = (LargeSpots) spot;
-			largeSpot.isAvaliable = true;
+			spot.Level.avaliablemotorCycleSpots--;
 		}
+		else if(spot instanceof CompactSpots) {
+			compactSpots.push((CompactSpots) spot);
+			spot.Level.avaliablecompactSpots--;
+		}
+		spot.isAvaliable = true;
 			
 	}
 	
