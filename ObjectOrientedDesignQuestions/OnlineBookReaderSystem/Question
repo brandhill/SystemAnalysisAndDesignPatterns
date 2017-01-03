@@ -1,0 +1,6 @@
+Create a Online book reader System with following features:
+User membership creation and extension
+Search the database of books
+Reading a book
+Only one active user for a book at a time
+Only once active book for one user
