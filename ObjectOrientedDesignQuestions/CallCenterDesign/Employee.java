@@ -8,14 +8,14 @@ public class Employee {
 	Employee supervisor;
 }
 
-class respondent extends Employee {
+class Respondent extends Employee {
 	
 }
 
-class manager extends Employee {
+class Manager extends Employee {
 	
 }
 
-class director extends Employee {
+class Director extends Employee {
 	
 }

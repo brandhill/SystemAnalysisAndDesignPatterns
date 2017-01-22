@@ -5,9 +5,11 @@ import java.util.Queue;
 
 public class CallHandler {
 	private static CallHandler manageCalls = null;
-	private Queue<respondent> respondents = new LinkedList<respondent>();
+	private Queue<Respondent> respondents = new LinkedList<Respondent>();
 	private Queue<Call> callWaitingList = new LinkedList<Call>();
-	private CallHandler(){
+	private Object lock1 = new Object();
+	private Object lock2 = new Object();
+	private CallHandler() {
 		
 	}
 	
@@ -18,12 +20,31 @@ public class CallHandler {
 		return manageCalls;
 	}
 	
-	void addRespondents(respondent r) {
-		respondents.add(r);
+	void addRespondents(Respondent r) {
+		synchronized (lock1) {
+			respondents.add(r);
+		}
 	}
 	
+	Respondent getRespondent() {
+		synchronized (lock1) {
+			return respondents.poll();
+		}
+	}
+	
+	void addToCallWaitingList(Call call) {
+		synchronized (lock2) {
+			callWaitingList.add(call);
+		}
+	}
+	
+	Call getFromCallWaitingList() {
+		synchronized (lock2) {
+			return callWaitingList.poll();
+		}
+	}
 	void dispatchCall(Call call) {
-		callWaitingList.add(call);
+		addToCallWaitingList(call);
 		call.status = "waiting";
 		dispatchCall();
 	}
@@ -35,13 +56,13 @@ public class CallHandler {
 			}
 			else {
 				
-				Employee respondent = respondents.poll();
+				Employee respondent = getRespondent();
 				while(!respondents.isEmpty() && !respondent.activeStatus)
-					respondent = respondents.poll();
+					respondent = getRespondent();
 					
 				if(respondent.activeStatus) {
 					respondent.activeStatus = false;
-					Call call = callWaitingList.poll();
+					Call call = getFromCallWaitingList();
 					call.status = "Ongoing";
 					call.setAssignTo(respondent);
 				}
@@ -57,13 +78,13 @@ public class CallHandler {
 		call.status = "Ended";
 		Employee respondent = call.assignTo;
 		respondent.activeStatus = true;
-		respondents.add((CallCenterDesign.respondent) respondent);
+		addRespondents((Respondent) respondent);
 		dispatchCall();
 	}
 	
 	void escalateCall(Call call) {
 		Employee emp = call.assignTo.supervisor;
-		while(!emp.activeStatus &&  !(emp instanceof director)) {
+		while(!emp.activeStatus &&  !(emp instanceof Director)) {
 			emp = emp.supervisor;
 		}
 		call.addCallDetails(emp);

@@ -90,7 +90,8 @@ public class ParkingHandler {
 			}
 			
 		}
-		spot.isAvaliable = false;
+		if(spot!=null)
+			spot.isAvaliable = false;
 		return spot;
 	}
 	
@@ -110,7 +111,9 @@ public class ParkingHandler {
 				}
 			}
 		}
-		spot.isAvaliable = false;
+		if(spot!=null)
+			spot.isAvaliable = false;
+		
 		return spot;
 	}
 
@@ -148,8 +151,6 @@ public class ParkingHandler {
 		return spot;
 	}
 	
-	
-	
 	void vehicleExit(Vehicle vehicle) {
 		vehicle.exitTime = new Date();
 		vehicle.cost = calculateCost(vehicle.entryTime,vehicle.exitTime,vehicle);
@@ -180,13 +181,16 @@ public class ParkingHandler {
 			compactSpots.push((CompactSpots) spot);
 			spot.Level.avaliablecompactSpots++;
 		}
+		else {
+			spot.Level.avaliablelargeSpots++;
+		}
+		
 		spot.isAvaliable = true;
-			
 	}
 	
 	private float calculateCost(Date entry,Date exit,Vehicle vehicle) {
 		float cost = 0;
-		// calculate cost based on entry and exit times and type of vehicle and return
+		// calculate cost based on entry and exit times and type of vehicle 
 		return cost;
 	}
 	
